@@ -1,0 +1,36 @@
+name: Pull request workflow
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  opensource-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  code-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/maven@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
+  build:
+    runs-on: ubuntu-latest
+    needs: [opensource-security, code-security]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/maven-setup
+        with:
+          github-deps-token: ${{ secrets.GH_PAT_FOR_ACTIONS_TOKEN }}
+      - name: Build and test with Maven
+        run: mvn -B test
+

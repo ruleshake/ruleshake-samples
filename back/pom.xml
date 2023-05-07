@@ -79,4 +79,19 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>github-deps</id>
+            <url>https://maven.pkg.github.com/ruleshake/ruleshake-runner</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/ruleshake/ruleshake-samples</url>
+        </repository>
+    </distributionManagement>
+
 </project>
