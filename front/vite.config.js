@@ -4,6 +4,16 @@ import { resolve } from 'path';
 
 export default ({ mode }) => {
   return defineConfig({
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8084',
+          changeOrigin: true,
+          ws: true,
+          secure: false
+        }
+      }
+    },
     build: {
       emptyOutDir: true,
       manifest: true,

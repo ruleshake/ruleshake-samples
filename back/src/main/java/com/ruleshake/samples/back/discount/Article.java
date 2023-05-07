@@ -1,4 +1,4 @@
-package com.ruleshake.samples.back.model.discount;
+package com.ruleshake.samples.back.discount;
 
 import lombok.Data;
 

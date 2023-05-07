@@ -1,4 +1,4 @@
-package com.ruleshake.samples.back.service;
+package com.ruleshake.samples.back.discount;
 
 import com.ruleshake.core.util.VariableReferenceUtil;
 import com.ruleshake.referential.client.ReferentialClient;
@@ -10,8 +10,7 @@ import com.ruleshake.runner.client.input.InputRecordVariable;
 import com.ruleshake.runner.client.input.InputVariable;
 import com.ruleshake.runner.client.variable.CompositeVariable;
 import com.ruleshake.runner.client.variable.NumberVariable;
-import com.ruleshake.samples.back.model.discount.Article;
-import com.ruleshake.samples.back.model.discount.Discount;
+import com.ruleshake.samples.back.common.AuthService;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 

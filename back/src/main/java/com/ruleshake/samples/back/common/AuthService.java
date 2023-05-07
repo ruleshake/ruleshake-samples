@@ -1,4 +1,4 @@
-package com.ruleshake.samples.back.service;
+package com.ruleshake.samples.back.common;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.benmanes.caffeine.cache.AsyncCache;

@@ -1,8 +1,5 @@
-package com.ruleshake.samples.back.controller;
+package com.ruleshake.samples.back.discount;
 
-import com.ruleshake.samples.back.model.discount.Article;
-import com.ruleshake.samples.back.model.discount.Discount;
-import com.ruleshake.samples.back.service.DiscountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
