@@ -4,6 +4,10 @@ on:
   push:
     branches: [ main ]
 
+defaults:
+  run:
+    working-directory: ./back
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,7 +30,6 @@ jobs:
         run: cd runner-client && mvn -B deploy -DskipTests
   publish-app:
     runs-on: ubuntu-latest
-    needs: publish-lib
     permissions:
       contents: read
       packages: write
@@ -36,7 +39,7 @@ jobs:
         with:
           github-deps-token: ${{ secrets.GH_PAT_FOR_ACTIONS_TOKEN }}
       - name: Build project
-        run: mvn -B install -DskipTests
+        run: cd back && mvn -B install -DskipTests
       - name: Log in to the Container registry
         uses: docker/login-action@v2
         with:
