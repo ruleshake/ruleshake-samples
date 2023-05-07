@@ -129,6 +129,8 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 
+const API_URL = import.meta.env.VITE_RULESHAKE_SAMPLES_API_URL;
+
 const initialLoading = ref(true)
 const loading = ref(false)
 const articles = ref([])
@@ -140,7 +142,7 @@ const totals = ref({
 })
 
 const fetchArticles = async () => {
-    const response = fetch("/api/discount/articles")
+    const response = fetch(`${API_URL}/discount/articles`)
         .then(response => {
             if (response.status >= 400) {
                 throw response
@@ -171,7 +173,7 @@ const addToCart = async (article) => {
 
 const computeRewards = async () => {
     const inputs = cart.value.flatMap(item => Array(item.quantity).fill({barcode: item.barcode}));
-    const response = fetch("/api/discount/apply", {
+    const response = fetch(`${API_URL}/discount/apply`, {
         method: "POST",
         headers: {
             "Accept": "application/json",
