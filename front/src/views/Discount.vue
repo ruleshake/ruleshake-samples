@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="container mx-auto flex flex-wrap py-6">
-        <section class="w-full md:w-2/3 items-center px-3">
+        <section class="w-2/3 items-center px-3">
             <div class="grid grid-cols-4 grid-flow-row gap-4">
                 <div v-for="article in articles" class="m-1">
                     <div class="w-full h-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col justify-between">
