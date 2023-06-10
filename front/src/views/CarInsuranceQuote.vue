@@ -1,4 +1,25 @@
 <template>
+    <SampleInfos title="Assurance auto">
+        <div class="flex p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
+            <svg aria-hidden="true" class="flex-shrink-0 inline w-5 h-5 mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+            <span class="sr-only">Info</span>
+            <div>Ceci est uniquement un exemple d'implémentation des services RuleShake</div>
+        </div>
+        <p>
+            Cet exemple permet d'implémenter un formulaire de souscription à une assurance automobile.
+            Pour ce faire, nous avons créé une collection dans RuleShake Catalog représentant un produit d'assurance automobile.
+        </p>
+        <p>
+            Cette collection contient des variables représentants le risque auto dont 2 variables liés à des datasets
+            (Infos du véhicule et Lieu de stationnement) définis dans RuleShake Referential.
+        </p>
+        <p>
+            La matrice de tarif (qui est une variable calculée) affiche les garanties disponibles pour chaque formule ainsi que son tarif.
+        </p>
+        <p>
+            Aucune modélisation intermédiaire n'a été réalisée, cet écran manipule directement les modèles d'objet de RuleShake.
+        </p>
+    </SampleInfos>
     <div v-if="initialLoading"
          class="fixed top-0 left-0 right-0 bottom-0 w-full h-screen z-50 overflow-hidden bg-gray-700 opacity-75 flex flex-col items-center justify-center">
         <div role="status">
@@ -64,6 +85,8 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import InsuranceForm from "@/components/InsuranceForm.vue";
+import {useNotification} from "@kyvg/vue3-notification";
+import SampleInfos from "@/components/SampleInfos.vue";
 
 const API_URL = import.meta.env.VITE_RULESHAKE_SAMPLES_API_URL;
 
@@ -101,6 +124,8 @@ const fetchVariables = async () => {
     variables.value = await response;
 }
 
+const { notify }  = useNotification()
+
 const evaluate = async (values) => {
     const inputs = Object.entries(values)
         .filter(([reference, value]) => value.value !== undefined)
@@ -122,20 +147,23 @@ const evaluate = async (values) => {
         value: fractionnement
     }));
     const response = computeVariables(inputs);
-    const result = await response;
-    let tmp = result
-        .filter(variable => variable.definitionReference === 'TARIF')
-        .reduce((acc, item) => {
-            const {FORMULE, FRACTIONNEMENT} = item.loopStep;
-            const formule = result.find(variable => variable.runtimeReference === FORMULE).value
-            const fractionnement = result.find(variable => variable.runtimeReference === FRACTIONNEMENT).value
-            if (!acc.has(fractionnement)) {
-                acc.set(fractionnement, new Map());
-            }
-            const sousMap = acc.get(fractionnement);
-            const tarif = {
-                total: item.subVariables.find(variable => variable.definitionReference === 'TARIF/TOTAL').value + ' €',
-                garanties: item.subVariables.find(variable => variable.definitionReference === 'TARIF/GARANTIES')
+    try {
+        initialLoading.value = true
+        const result = await response;
+        initialLoading.value = false
+        let tmp = result
+          .filter(variable => variable.definitionReference === 'TARIF')
+          .reduce((acc, item) => {
+              const {FORMULE, FRACTIONNEMENT} = item.loopStep;
+              const formule = result.find(variable => variable.runtimeReference === FORMULE).value
+              const fractionnement = result.find(variable => variable.runtimeReference === FRACTIONNEMENT).value
+              if (!acc.has(fractionnement)) {
+                  acc.set(fractionnement, new Map());
+              }
+              const sousMap = acc.get(fractionnement);
+              const tarif = {
+                  total: item.subVariables.find(variable => variable.definitionReference === 'TARIF/TOTAL').value + ' €',
+                  garanties: item.subVariables.find(variable => variable.definitionReference === 'TARIF/GARANTIES')
                     .subVariables
                     .sort((a, b) => (a.orderIndex > b.orderIndex) ? 1 : -1)
                     .map(garantie => {
@@ -147,11 +175,19 @@ const evaluate = async (values) => {
                         }
                     })
 
-            }
-            sousMap.set(formule, tarif);
-            return acc;
-        }, new Map());
-    tarifs.value = tmp
+              }
+              sousMap.set(formule, tarif);
+              return acc;
+          }, new Map());
+        tarifs.value = tmp
+    } catch (e) {
+        notify({
+            type: 'error',
+            title: "Erreur",
+            duration: 8000,
+            text: "Une erreur est survenue lors de l'évaluation du tarif. Assurez-vous que les champs 'Véhicule' et 'Lieu de stationnement' sont renseignés",
+        });
+    }
 }
 
 const getTarifGrid = () => {

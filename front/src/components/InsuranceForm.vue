@@ -14,7 +14,10 @@
     <div v-if="sorted.length > 0" class="mt-6">
         <div v-for="subVariable in getSubVariables()" class="mt-4">
             <label for="helper-text"
-                   class="block mb-2 text-lg font-normal text-white">{{ subVariable.properties['LIBELLE'] }}</label>
+                   class="block mb-2 text-lg font-normal text-white">
+                {{ subVariable.properties['LIBELLE'] }}
+                <span v-if="subVariable.mandatory" class="text-red-700 text-xl">*</span>
+            </label>
             <DatasetSelector v-if="subVariable.type === 'record'" v-model="values[subVariable.runtimeReference].value"
                              :variable="subVariable"/>
             <div v-else-if="subVariable.type === 'boolean'">
@@ -124,12 +127,12 @@ const getStepperItemClass = (index) => {
     if (index <= current.value) {
         clazz += 'flex text-blue-600 font-semibold'
         if (index < sorted.value.length - 1) {
-            clazz += ' w-full after:w-full items-center after:border-b after:border-1 after:mx-6 after:border-gray-700'
+            clazz += ' w-full after:w-full items-center after:border-b after:border-1 after:mx-6 after:border-gray-400'
         }
     } else {
-        clazz = 'flex text-gray-500 font-normal'
+        clazz = 'flex text-gray-400 font-normal'
         if (index < sorted.value.length - 1) {
-            clazz += ' w-full after:w-full items-center after:border-b after:border-1 after:mx-6 after:border-gray-700'
+            clazz += ' w-full after:w-full items-center after:border-b after:border-1 after:mx-6 after:border-gray-400'
         }
     }
     return clazz
@@ -140,7 +143,7 @@ const getNumberClass = (index) => {
     if (index <= current.value) {
         clazz += ' bg-blue-600 border-blue-600 text-gray-800'
     } else {
-        clazz += ' border-gray-500 text-gray-500'
+        clazz += ' border-gray-400 text-gray-400'
     }
     return clazz
 }

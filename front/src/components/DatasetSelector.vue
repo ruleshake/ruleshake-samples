@@ -13,9 +13,9 @@
   <!-- Main modal -->
     <transition name="fade">
         <div v-if="open"
-             class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+             class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 flex">
             <div class="absolute bg-black opacity-70 inset-0 z-0"></div>
-            <div class="relative w-full max-w-6xl mx-auto">
+            <div class="relative w-full max-w-6xl mx-auto my-auto">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow">
                     <!-- Modal header -->
