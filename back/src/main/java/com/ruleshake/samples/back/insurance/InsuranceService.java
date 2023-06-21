@@ -36,7 +36,7 @@ public class InsuranceService {
         request.setCollectionCode("ASSURANCE_AUTO");
         request.setInputs(inputs);
         return authService.getSecurityContext()
-            .flatMapMany(context -> runnerClient.collection("ASSURANCE_AUTO")
+            .flatMapMany(context -> runnerClient.evaluations()
                 .evaluate(request)
                 .flatMapMany(response -> Flux.fromIterable(response.getVariables()))
                 .contextWrite(context)

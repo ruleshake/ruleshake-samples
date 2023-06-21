@@ -50,7 +50,7 @@ public class DiscountService {
 
     public Flux<Discount> applyDiscounts(List<Article> cart) {
         return authService.getSecurityContext()
-            .flatMap(context -> runnerClient.collection("DISCOUNT")
+            .flatMap(context -> runnerClient.evaluations()
                 .evaluate(buildRequest(cart))
                 .contextWrite(c -> context)
             )
