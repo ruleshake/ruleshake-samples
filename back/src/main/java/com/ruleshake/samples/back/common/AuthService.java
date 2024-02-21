@@ -12,31 +12,34 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientRequest;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.util.context.Context;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.concurrent.CompletableFuture;
 
 public class AuthService {
 
     private final WebClient webClient;
-    private final AsyncCache<String, String> tokenCache = Caffeine.newBuilder()
-        .expireAfterWrite(Duration.of(43200, ChronoUnit.SECONDS))
-        .buildAsync();
+    private final AsyncCache<String, String> tokenCache;
 
     public AuthService(SamplesConfiguration.AuthProperties authProperties) {
+        this.tokenCache = Caffeine.newBuilder()
+            .expireAfterWrite(authProperties.getExpiration())
+            .buildAsync();
         this.webClient = WebClient.builder()
             .baseUrl(authProperties.getUrl())
-            .filter(ExchangeFilterFunction.ofRequestProcessor(clientRequest ->
-                Mono.just(new M2MRequest(authProperties.getClientId(), authProperties.getClientSecret(), authProperties.getAudience(), "client_credentials"))
-                    .map(body -> ClientRequest.from(clientRequest).body(Mono.just(body), M2MRequest.class).build())
+            .filter(ExchangeFilterFunction.ofRequestProcessor(clientRequest -> Mono.just(ClientRequest.from(clientRequest).body(
+                    BodyInserters.fromFormData("client_id", authProperties.getClientId())
+                        .with("client_secret", authProperties.getClientSecret())
+                        .with("audience", authProperties.getAudience())
+                        .with("grant_type", "client_credentials")
+                ).build())
             ))
-            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
             .build();
     }
 

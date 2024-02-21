@@ -15,27 +15,29 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/maven-setup
         with:
           github-deps-token: ${{ secrets.GH_PAT_FOR_ACTIONS_TOKEN }}
       - name: Build project
         run: mvn -B install
       - name: Log in to the Container registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v2
-        with:
-          images: ghcr.io/${{ github.repository }}
       - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         with:
           context: ./back
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          provenance: false
+          tags: |
+            ghcr.io/ruleshake/samples:develop
+          labels: |
+            org.opencontainers.image.title=ruleshake-samples
+            org.opencontainers.image.authors=Mohammed BOUKADA
+            org.opencontainers.image.version=develop
+            org.opencontainers.image.created=${{ github.event.repository.updated_at}}
+            org.opencontainers.image.revision=${{ github.sha }}

@@ -12,12 +12,13 @@ spring:
 ruleshake:
   referential:
     base-path: ${REFERENTIAL_URL:http://localhost:8083/api}
-    timeout: 1s
+    timeout: 10s
   runner:
     base-path: ${RUNNER_URL:http://localhost:8082/api}
-    timeout: 1s
+    timeout: 10s
   auth:
-    url: ${RULESHAKE_SAMPLES_AUTH_URL}
-    audience: ${RULESHAKE_SAMPLES_AUTH_AUDIENCE}
-    client-id: ${RULESHAKE_SAMPLES_AUTH_CLIENT_ID}
-    client-secret: ${RULESHAKE_SAMPLES_AUTH_CLIENT_SECRET}
+    url: ${RULESHAKE_SAMPLES_AUTH_URL:http://localhost:9090/realms/ruleshake-local/protocol/openid-connect/token}
+    audience: ${RULESHAKE_SAMPLES_AUTH_AUDIENCE:}
+    client-id: ${RULESHAKE_SAMPLES_AUTH_CLIENT_ID:ruleshake-studio}
+    client-secret: ${RULESHAKE_SAMPLES_AUTH_CLIENT_SECRET:changeit}
+    expiration: ${RULESHAKE_SAMPLES_AUTH_TOKEN_EXPIRATION:299s}

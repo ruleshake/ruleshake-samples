@@ -12,6 +12,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.Duration;
+
 @Configuration
 @EnableRuleShakeReferentialClient
 @EnableRuleShakeRunnerClient
@@ -45,6 +47,7 @@ public class SamplesConfiguration {
         private String audience;
         private String clientId;
         private String clientSecret;
+        private Duration expiration;
 
     }
 
