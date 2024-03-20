@@ -1,8 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import App from "@/App.vue";
 import CarInsuranceQuote from "@/views/CarInsuranceQuote.vue";
 import Home from "@/views/Home.vue";
 import Discount from "@/views/Discount.vue";
+import Impot from "@/views/Impot.vue";
 
 const routes = [
     {
@@ -19,6 +19,11 @@ const routes = [
         name: "discount",
         path: '/discount',
         component: Discount,
+    },
+    {
+        name: "impot",
+        path: '/impot',
+        component: Impot,
     },
 ]
 

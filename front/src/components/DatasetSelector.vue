@@ -85,7 +85,7 @@ onMounted(async () => {
 })
 
 const loadRecords = async () => {
-    const response = fetch(`${API_URL}/insurance/dataset-records/${props.variable.datasetCode}`)
+    const response = fetch(`${API_URL}/datasets/${props.variable.datasetCode}/records`)
       .then(response => {
           if (response.status >= 400) {
               throw response

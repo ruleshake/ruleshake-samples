@@ -111,9 +111,8 @@ const initValues = (vars) => {
 const getSubVariables = () => {
     const variable = sorted.value.at(current.value)
     if (variable.type === 'composite') {
-        const subVariables = variable.subVariables.filter(v => v.properties && v.properties["LIBELLE"])
-            .sort((a, b) => (a.orderIndex > b.orderIndex) ? 1 : -1)
-        return subVariables
+      return variable.subVariables.filter(v => v.properties && v.properties["LIBELLE"])
+          .sort((a, b) => (a.orderIndex > b.orderIndex) ? 1 : -1)
     }
     return [];
 }

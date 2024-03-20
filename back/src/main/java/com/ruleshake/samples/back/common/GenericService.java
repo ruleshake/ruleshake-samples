@@ -1,4 +1,4 @@
-package com.ruleshake.samples.back.insurance;
+package com.ruleshake.samples.back.common;
 
 import com.ruleshake.referential.client.ReferentialClient;
 import com.ruleshake.referential.client.dto.DatasetRecord;
@@ -6,7 +6,6 @@ import com.ruleshake.runner.client.RunnerClient;
 import com.ruleshake.runner.client.collection.EvaluationRequest;
 import com.ruleshake.runner.client.input.InputVariable;
 import com.ruleshake.runner.client.variable.Variable;
-import com.ruleshake.samples.back.common.AuthService;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 
 @RequiredArgsConstructor
-public class InsuranceService {
+public class GenericService {
 
     private final AuthService authService;
     private final ReferentialClient referentialClient;
@@ -30,10 +29,10 @@ public class InsuranceService {
             );
     }
 
-    public Flux<Variable> evaluate(Collection<InputVariable> inputs) {
+    public Flux<Variable> evaluate(String collectionCode, Collection<InputVariable> inputs) {
         EvaluationRequest request = new EvaluationRequest();
         request.setRequestTime(LocalDateTime.now());
-        request.setCollectionCode("ASSURANCE_AUTO");
+        request.setCollectionCode(collectionCode);
         request.setInputs(inputs);
         return authService.getSecurityContext()
             .flatMapMany(context -> runnerClient.evaluations()

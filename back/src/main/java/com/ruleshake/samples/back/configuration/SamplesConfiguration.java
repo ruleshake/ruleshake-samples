@@ -5,8 +5,8 @@ import com.ruleshake.referential.client.config.EnableRuleShakeReferentialClient;
 import com.ruleshake.runner.client.RunnerClient;
 import com.ruleshake.runner.client.config.EnableRuleShakeRunnerClient;
 import com.ruleshake.samples.back.common.AuthService;
+import com.ruleshake.samples.back.common.GenericService;
 import com.ruleshake.samples.back.discount.DiscountService;
-import com.ruleshake.samples.back.insurance.InsuranceService;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -25,13 +25,13 @@ public class SamplesConfiguration {
     }
 
     @Bean
-    public DiscountService discountService(AuthService authService, ReferentialClient referentialClient, RunnerClient runnerClient) {
-        return new DiscountService(authService, referentialClient, runnerClient);
+    public GenericService genericService(AuthService authService, ReferentialClient referentialClient, RunnerClient runnerClient) {
+        return new GenericService(authService, referentialClient, runnerClient);
     }
 
     @Bean
-    public InsuranceService insuranceService(AuthService authService, ReferentialClient referentialClient, RunnerClient runnerClient) {
-        return new InsuranceService(authService, referentialClient, runnerClient);
+    public DiscountService discountService(AuthService authService, ReferentialClient referentialClient, RunnerClient runnerClient) {
+        return new DiscountService(authService, referentialClient, runnerClient);
     }
 
     @Bean

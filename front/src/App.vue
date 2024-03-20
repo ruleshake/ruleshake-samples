@@ -19,6 +19,9 @@
                         <router-link class="text-gray-200 hover:text-blue-400 mx-6" to="/discount">
                             Discount calculation
                         </router-link>
+                        <router-link class="text-gray-200 hover:text-blue-400 mx-6" to="/impot">
+                            Impôt sur le revenu
+                        </router-link>
                     </div>
                     <hr style="width:40px; transform:rotate(90deg);">
                     <a class="ml-6 h-10 transform rounded-md border px-5 py-2 text-center text-sm inline-flex items-center transition-colors duration-300 text-white hover:bg-gray-700 mt-0 w-auto"
