@@ -7,7 +7,7 @@
         </span>
       </div>
       <div class="flex flex-col items-center">
-        <img class="w-36 lg:w-64 object-cover" :src="`/src/assets/${img}.png`" alt=""/>
+        <img class="w-36 lg:w-64 object-cover" :src="`${img}.png`" alt=""/>
         <h1 class="mt-4 text-2xl lg:text-3xl font-semibold group-hover:text-white text-white">
           {{ title }}
         </h1>
