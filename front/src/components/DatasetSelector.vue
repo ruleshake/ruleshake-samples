@@ -13,14 +13,14 @@
   <!-- Main modal -->
     <transition name="fade">
         <div v-if="open"
-             class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 flex">
+             class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto inset-0 flex">
             <div class="absolute bg-black opacity-70 inset-0 z-0"></div>
             <div class="relative w-full max-w-6xl mx-auto my-auto">
                 <!-- Modal content -->
                 <div class="relative bg-white rounded-lg shadow">
                     <!-- Modal header -->
-                    <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    <div class="flex items-start justify-between p-4 border-b rounded-t">
+                        <h3 class="text-xl font-semibold text-gray-900">
                             Sélectionner une valeur
                         </h3>
                         <button type="button"
@@ -37,8 +37,8 @@
                     <!-- Modal body -->
 
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                             <tr>
                                 <th v-for="header in getHeaders()" scope="col" class="px-6 py-3">
                                     {{ header }}
@@ -48,13 +48,13 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="record in records" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <tr v-for="record in records" class="bg-white border-b hover:bg-gray-50">
                                 <th v-for="property in Object.values(record.properties)" scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                     {{ property.value }}
                                 </th>
                                 <td class="flex items-center px-6 py-4 space-x-3">
-                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline" @click="select(record)">Sélectionner</a>
+                                    <a href="#" class="font-medium text-blue-600 hover:underline" @click="select(record)">Sélectionner</a>
                                 </td>
                             </tr>
                             </tbody>

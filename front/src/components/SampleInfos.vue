@@ -1,6 +1,6 @@
 <template>
     <div v-if="open"
-         class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 flex">
+         class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto inset-0 flex">
         <div class="absolute bg-black opacity-70 inset-0 z-0"></div>
         <div class="relative w-full max-w-2xl  mx-auto my-auto">
             <!-- Modal content -->
