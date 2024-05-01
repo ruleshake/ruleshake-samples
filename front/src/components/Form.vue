@@ -29,7 +29,7 @@ const fetchVariables = async () => {
 }
 
 const computeVariables = (inputs) => {
-  const response = fetch(`${API_URL}/collections/${props.collectionCode}/evaluations`, {
+  return fetch(`${API_URL}/collections/${props.collectionCode}/evaluations`, {
     method: 'POST',
     body: JSON.stringify(inputs),
     headers: {
@@ -43,7 +43,6 @@ const computeVariables = (inputs) => {
       }
       return response.json();
     })
-  return response;
 }
 
 watch(() => variables.value, (value) => {

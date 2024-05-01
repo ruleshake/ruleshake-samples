@@ -7,6 +7,7 @@ import com.ruleshake.runner.client.collection.EvaluationRequest;
 import com.ruleshake.runner.client.input.InputVariable;
 import com.ruleshake.runner.client.variable.Variable;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
@@ -37,7 +38,7 @@ public class GenericService {
         return authService.getSecurityContext()
             .flatMapMany(context -> runnerClient.evaluations()
                 .evaluate(request)
-                .flatMapMany(response -> Flux.fromIterable(response.getVariables()))
+                .flatMapMany(response -> Flux.fromIterable(CollectionUtils.emptyIfNull(response.getVariables())))
                 .contextWrite(context)
             );
     }

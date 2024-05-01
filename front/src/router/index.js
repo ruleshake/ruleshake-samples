@@ -3,6 +3,7 @@ import CarInsuranceQuote from "@/views/CarInsuranceQuote.vue";
 import Home from "@/views/Home.vue";
 import Discount from "@/views/Discount.vue";
 import Impot from "@/views/Impot.vue";
+import Bai from "@/views/Bai.vue";
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         name: "impot",
         path: '/impot',
         component: Impot,
+    },
+    {
+        name: "bai",
+        path: '/bai',
+        component: Bai,
     },
 ]
 
