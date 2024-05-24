@@ -112,11 +112,11 @@
                 <tbody>
                 <tr v-for="garantie in combinaison.garanties">
                   <td class="px-6">{{ garantie.code }}</td>
-                  <td class="px-6">{{ garantie.couv }}</td>
+                  <td class="px-6">{{ garantie.couv }} %</td>
                   <td class="px-6">{{ garantie.coti }}</td>
-                  <td class="px-6">{{ garantie.tbi }}</td>
-                  <td class="px-6">{{ garantie.nbi }}</td>
-                  <td class="px-6">{{ garantie.ri }}</td>
+                  <td class="px-6">{{ garantie.tbi }} %</td>
+                  <td class="px-6">{{ garantie.nbi }} %</td>
+                  <td class="px-6">{{ garantie.ri }} %</td>
                 </tr>
                 </tbody>
               </table>
