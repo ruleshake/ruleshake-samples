@@ -219,7 +219,10 @@ const inputs = [];
 const data = ref(null)
 
 function formatPrice(value) {
-  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " €"
+  if (value) {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " €"
+  }
+  return ""
 }
 
 const results = ref()
@@ -236,10 +239,11 @@ const parseResult = (values) => {
   const calcul = values.find(variable => variable.definitionReference === 'CALCUL')
   data.value.tranches = calcul.subVariables.filter(variable => variable.definitionReference === 'CALCUL/IMPOT_PAR_TRANCHE')
     .map(tranche => {
+      const infoTranche = values.find(variable => variable.runtimeReference === tranche.loopStep["TRANCHE"])
       return {
-        taux: tranche.loopStep["TRANCHE"]["TAUX"].value,
-        min: tranche.loopStep["TRANCHE"]["MIN"].value,
-        max: tranche.loopStep["TRANCHE"]["MAX"].value,
+        taux: infoTranche.subVariables.find(variable => variable.definitionReference === 'TRANCHES/TAUX').value,
+        min: infoTranche.subVariables.find(variable => variable.definitionReference === 'TRANCHES/MIN').value,
+        max: infoTranche.subVariables.find(variable => variable.definitionReference === 'TRANCHES/MAX').value,
         montant: tranche.subVariables.find(variable => variable.definitionReference === 'CALCUL/IMPOT_PAR_TRANCHE/MONTANT').value,
         impot: tranche.subVariables.find(variable => variable.definitionReference === 'CALCUL/IMPOT_PAR_TRANCHE/AVEC_QF').value
       }
