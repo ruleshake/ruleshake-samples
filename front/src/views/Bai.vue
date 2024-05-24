@@ -5,7 +5,7 @@
       <div class="flex flex-row justify-center">
         <span>Formules</span>
         <div class="inline-block">
-          <input class="ml-4" type="checkbox" id="f90" :checked="formules.includes('F90')"
+          <input class="ml-4" type="checkbox" id="f90" :checked="formules.includes('F90')" disabled
                  @input="event => handleFormules('F90', event.target.checked)"/>
           <label class="inline-block ps-[0.15rem] hover:cursor-pointer" for="f90">Formule 90%</label>
         </div>
@@ -18,7 +18,7 @@
       <div class="flex flex-row justify-center mt-4">
         <span>Assiettes</span>
         <div class="inline-block">
-          <input class="ml-4" type="checkbox" id="tbi" :checked="assiettes.includes('TBI')"
+          <input class="ml-4" type="checkbox" id="tbi" :checked="assiettes.includes('TBI')" disabled
                  @input="event => handleAssiettes('TBI', event.target.checked)"/>
           <label class="inline-block ps-[0.15rem] hover:cursor-pointer" for="tbi">TBI</label>
         </div>
@@ -36,7 +36,7 @@
       <div class="flex flex-row justify-center mt-4">
         <span>Garanties</span>
         <div class="inline-block">
-          <input class="ml-4" type="checkbox" id="incap" :checked="garanties.includes('INCAP')"
+          <input class="ml-4" type="checkbox" id="incap" :checked="garanties.includes('INCAP')" disabled
                  @input="event => handleGaranties('INCAP', event.target.checked)"/>
           <label class="inline-block ps-[0.15rem] hover:cursor-pointer" for="incap">Incapacité</label>
         </div>
