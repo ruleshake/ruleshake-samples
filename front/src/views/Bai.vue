@@ -1,17 +1,6 @@
 <template>
+  <Loading v-if="initialLoading"/>
   <div class="container flex lg:flex-row flex-col py-6 text-white align-top">
-    <!--    <div class="lg:w-1/2 w-full px-3 mx-auto">-->
-    <!--      <Form type="column" collection-code="BAI"-->
-    <!--            :ignored-variables="['FORMULES', 'GARANTIES', 'ASSIETTES']"-->
-    <!--            :initial-variables="inputs" @values="parseResult" @error="onError"/>-->
-    <!--      <div v-if="combinaisons" class="mt-8 flex justify-end">-->
-    <!--        <a href="#" @click="downloadJsonFile()"-->
-    <!--           class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-lg px-5 py-2.5 text-center"-->
-    <!--        >-->
-    <!--          Télécharger-->
-    <!--        </a>-->
-    <!--      </div>-->
-    <!--    </div>-->
     <div class="w-full flex flex-col items-center px-3 mt-6">
       <div class="flex flex-row justify-center">
         <span>Formules</span>
@@ -139,11 +128,11 @@
   </div>
 </template>
 <script setup>
-import Form from "@/components/Form.vue";
 import {ref} from "vue";
 import {useNotification} from "@kyvg/vue3-notification";
+import Loading from "@/components/Loading.vue";
 
-const inputs = [];
+const initialLoading = ref(false)
 
 const formules = ref(['F90', 'F95'])
 const handleFormules = (code, state) => {
@@ -173,6 +162,7 @@ const handleGaranties = (code, state) => {
 }
 
 const compute = async () => {
+  initialLoading.value = true
   console.log("garanties", garanties.value)
   const inputs = []
   formules.value.forEach((formule, index) => {
@@ -198,6 +188,7 @@ const compute = async () => {
   })
   const variables = await computeVariables(inputs);
   parseResult(variables)
+  initialLoading.value = false
 }
 
 const API_URL = import.meta.env.VITE_RULESHAKE_SAMPLES_API_URL;
