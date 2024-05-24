@@ -2,7 +2,7 @@
   <Loading v-if="initialLoading"/>
   <div class="container flex lg:flex-row flex-col py-6 text-white align-top">
     <div class="w-full flex flex-col items-center px-3 mt-6">
-      <div class="flex flex-row justify-center">
+      <div class="flex flex-row justify-center align-center">
         <span>Formules</span>
         <div class="inline-block">
           <input class="ml-4" type="checkbox" id="f90" :checked="formules.includes('F90')" disabled
@@ -46,12 +46,12 @@
           <label class="inline-block ps-[0.15rem] hover:cursor-pointer" for="inval">Invalidité</label>
         </div>
         <div class="inline-block">
-          <input class="ml-4" type="checkbox" id="pr" :checked="garanties.includes('PR')"
+          <input class="ml-4" type="checkbox" id="pr" :checked="garanties.includes('PR')" :disabled="!garanties.includes('INVAL')"
                  @input="event => handleGaranties('PR', event.target.checked)"/>
           <label class="inline-block ps-[0.15rem] hover:cursor-pointer" for="pr">Perte de retraite</label>
         </div>
         <div class="inline-block">
-          <input class="ml-4" type="checkbox" id="dc" :checked="garanties.includes('DC')"
+          <input class="ml-4" type="checkbox" id="dc" :checked="garanties.includes('DC')" :disabled="!garanties.includes('INVAL')"
                  @input="event => handleGaranties('DC', event.target.checked)"/>
           <label class="inline-block ps-[0.15rem] hover:cursor-pointer" for="dc">Décès</label>
         </div>
@@ -137,27 +137,36 @@ const initialLoading = ref(false)
 const formules = ref(['F90', 'F95'])
 const handleFormules = (code, state) => {
   if (state) {
-      formules.value.push(code)
+    formules.value.push(code)
   } else {
-      formules.value = formules.value.filter(v => v !== code)
+    formules.value = formules.value.filter(v => v !== code)
   }
 }
 
 const assiettes = ref(['TBI', 'HorsRI', 'HorsRI+RI'])
 const handleAssiettes = (code, state) => {
   if (state) {
-      assiettes.value.push(code)
+    if (code === 'HorsRI+RI' && !assiettes.value.includes('HorsRI')) {
+      assiettes.value.push('HorsRI')
+    }
+    assiettes.value.push(code)
   } else {
-      assiettes.value = assiettes.value.filter(v => v !== code)
+    if (code === 'HorsRI' && assiettes.value.includes('HorsRI+RI')) {
+      assiettes.value = assiettes.value.filter(v => v !== 'HorsRI+RI')
+    }
+    assiettes.value = assiettes.value.filter(v => v !== code)
   }
 }
 
 const garanties = ref(['INCAP', 'INVAL', 'DC', 'PR'])
 const handleGaranties = (code, state) => {
   if (state) {
-      garanties.value.push(code)
+    garanties.value.push(code)
   } else {
-      garanties.value = garanties.value.filter(v => v !== code)
+    if (code === 'INVAL') {
+      garanties.value = garanties.value.filter(v => v !== 'DC' && v !== 'PR')
+    }
+    garanties.value = garanties.value.filter(v => v !== code)
   }
 }
 
@@ -281,3 +290,12 @@ const onError = (e) => {
   });
 }
 </script>
+<style scoped>
+input[type='checkbox'] {
+  width:20px;
+  height:20px;
+  background:white;
+  border-radius:10px;
+  border:2px solid #555;
+}
+</style>
